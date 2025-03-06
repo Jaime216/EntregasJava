@@ -12,7 +12,7 @@ public class Lecturas {
 	/* Dado un archivo de texto de nombre fichero, cuyos términos están separados mediante el separador sep,
 	implemente una función que, dados el nombre del fichero, el separador y una palabra cad, cuente
 	cuántas veces aparece dicha palabra dentro del fichero */
-    public static int lecturas1(String nombreFichero, String separador, String palabra) {
+    public static int contar_palabra(String nombreFichero, String separador, String palabra) {
         int contador = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(nombreFichero))) {
@@ -34,7 +34,7 @@ public class Lecturas {
     }
     
     // Función para buscar líneas que contengan una cadena específica
-    public static List<String> lecturas2(String nombreFichero, String cadena) {
+    public static List<String> lineas_con_palabra(String nombreFichero, String cadena) {
         List<String> lineasEncontradas = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(nombreFichero))) {
@@ -52,37 +52,26 @@ public class Lecturas {
     }
     
     // Función para encontrar todas las palabras únicas en un archivo
-    public static Set<String> lecturas3(String nombreFichero) {
+    public static Set<String> palabras_unicas(String nombreFichero) {
         Set<String> palabrasUnicas = new HashSet<>();
-        List<String> palabras = new ArrayList<String>();
         try (BufferedReader br = new BufferedReader(new FileReader(nombreFichero))) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 // Convertir a minúsculas y dividir por espacios
             	for (String palabra : linea.toLowerCase().split("\\s+")) {
-                    palabras.add(palabra);
+                    palabrasUnicas.add(palabra.trim());
                     }
                 }
         } catch (IOException e) {
             System.err.println("Error al leer el archivo: " + e.getMessage());
         }
-        for (String p : palabras) {
-        	int count = 0;
-			for (String p2 : palabras) {
-				if (p.equals(p2)) {
-					count++;
-				}
-			}
-			if (count == 1) {
-				palabrasUnicas.add(p);
-			}
-        }
+
         return palabrasUnicas;
     }
 
     /*Dado un fichero csv de nombre fichero, cuyos términos están separados mediante el separador sep,
     implemente una función que devuelva la longitud media de las líneas de dicho fichero*/
-	public static double lecturas4(String nombreFichero, String separador) {
+	public static double longitud_promedio_lineas(String nombreFichero, String separador) {
 		double longitudMedia = 0;
 		int numLineas = 0;
 
@@ -97,7 +86,6 @@ public class Lecturas {
 		} catch (IOException e) {
 			System.err.println("Error al leer el archivo: " + e.getMessage());
 		}
-
 		return longitudMedia / numLineas;
 	}
     
@@ -108,21 +96,21 @@ public class Lecturas {
         String separador = "\\s+"; // Separador: espacio en blanco
         String palabra = "quijote";
 
-        int ocurrencias = lecturas1(nombreFichero, separador, palabra);
+        int ocurrencias = contar_palabra(nombreFichero, separador, palabra);
         System.out.println("El número de veces que aparece la palabra '" + palabra + "' en el fichero es: " + ocurrencias);
         
         nombreFichero = "resources/lin_quijote.txt"; // Ruta del archivo
         String cadena = "quijote";
 
-        List<String> lineas = lecturas2(nombreFichero, cadena);
+        List<String> lineas = lineas_con_palabra(nombreFichero, cadena);
         System.out.println("Las líneas en las que aparece la palabra '" + cadena + "' son: " + lineas);
         
         nombreFichero = "resources/archivo_palabras.txt"; // Ruta del archivo
-        Set<String> palabras = lecturas3(nombreFichero);
+        Set<String> palabras = palabras_unicas(nombreFichero);
         System.out.println("Las palabras únicas en el archivo son: " + palabras);
         
         nombreFichero = "resources/palabras_random.csv"; // Ruta del archivo
         separador = ","; // Separador: espacio en blanco
-        System.out.println("La longitud media de las líneas del archivo es: " + lecturas4(nombreFichero, separador));
+        System.out.println("La longitud media de las líneas del archivo es: " + longitud_promedio_lineas(nombreFichero, separador));
     }
 }
