@@ -125,7 +125,54 @@ public class TestEstructurasLineales {
 		System.out.println("\n\n");
 	}
 	
-    public static void main(String[] args) {
+	public static void testColaPrioridad() {
+        System.out.println("----- Prueba de ColaPrioridad -----\n");
+
+        ColaPrioridad<String, Integer> cola = ColaPrioridad.ofPriority();
+        
+        System.out.println("Añadiendo elementos con prioridad:\n");
+        cola.add("Crítico", 1);
+        System.out.println("'Crítico' con prioridad 1");
+        cola.add("Normal", 3);
+        System.out.println("'Normal' con prioridad 3");
+        cola.add("Urgente", 2);
+        System.out.println("'Urgente' con prioridad 2");
+        cola.add("Bajo", 4);
+        System.out.println("'Bajo' con prioridad 4\n");
+
+        System.out.println("Elementos en la cola por prioridad: " + cola.valuesAsList());
+        System.out.println("Elementos con sus prioridades: " + cola.elements());
+        System.out.println("Tamaño de la cola: " + cola.size() + "\n");
+        
+        System.out.println("Cambiando la prioridad de 'Normal' de 3 a 1:\n");
+        cola.decreasePriority("Normal", 1);
+        System.out.println("Elementos con prioridad actualizada: " + cola.valuesAsList() + "\n");
+        
+        System.out.println("Desencolando elementos por prioridad:\n");
+        while (!cola.isEmpty()) {
+            System.out.println("Desencolado: " + cola.removeValue());
+            System.out.println("Cola restante: " + cola.valuesAsList() + "\n");
+        }
+        
+        System.out.println("¿Está vacía? " + cola.isEmpty());
+        
+        try {
+            cola.removeValue();
+        } catch (Exception e) {
+            System.out.println("Excepción correctamente lanzada al intentar desencolar de una cola vacía: " + e.getMessage());
+        }
+        
+        System.out.println("\nPrueba con addAll:\n");
+        cola.addAllValues(List.of("Tarea A", "Tarea B", "Tarea C"), 2);
+        System.out.println("Elementos añadidos en lote con prioridad 2: " + cola.valuesAsList());
+        
+        cola.add("Tarea Urgente", 1);
+        System.out.println("Después de añadir 'Tarea Urgente' con prioridad 1: " + cola.valuesAsList());
+        
+        System.out.println("\n\n");
+    }
+	
+	public static void main(String[] args) {
     	System.out.println("===== INICIANDO PRUEBAS DE ESTRUCTURAS LINEALES =====\n\n");
     	
     	testListaOrdenada();
@@ -135,5 +182,9 @@ public class TestEstructurasLineales {
     	testCola();
     	
     	testPila();
+    	
+    	testColaPrioridad();
+    	
+    	System.out.println("===== TODAS LAS PRUEBAS COMPLETADAS =====");
     }
 }
